@@ -4,7 +4,15 @@
   apt:
     update_cache: yes
     upgrade: full
-  notify: check_reboot
 
 - name: Set Hostname
   shell: hostname {{ hostname }} && echo {{ hostname }} > /etc/hostname && sed -i '/127\.0\.1\.1/c\127.0.1.1 {{ hostname }}' /etc/hosts
+
+- name: Create users
+  user:
+    name: "{{ item.name }}"
+    groups: "{{ item.groups }}"
+    password: "{{ item.password | password_hash('sha512', item.salt) }}"
+    append: yes
+    shell: "{{ '/bin/bash' if item.password != '' else '/usr/sbin/nologin' }}"
+  loop: "{{ users }}"
