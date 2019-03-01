@@ -1,0 +1,10 @@
+---
+- name: check_reboot
+  shell: "[ -f /var/run/reboot-required ]"
+  failed_when: False
+  register: reboot_required
+  changed_when: reboot_required.rc == 0
+  notify: reboot
+
+- name: reboot
+  command: /sbin/reboot
