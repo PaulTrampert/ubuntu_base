@@ -12,8 +12,8 @@
 - name: Create users
   user:
     name: "{{ item.name }}"
-    groups: "{{ item.groups }}"
-    password: "{{ item.password | password_hash('sha512', item.salt) }}"
-    append: yes
-    shell: "{{ '/bin/bash' if item.password != '' else '/usr/sbin/nologin' }}"
+    group: "{{ item.name }}"
+    groups: "{{ item.groups | default([]) }}"
+    password: "{{ item.password | default('') | password_hash('sha512', item.salt | default ('')) }}"
+    shell: "{{ '/bin/bash' if item.password is defined else '/usr/sbin/nologin' }}"
   loop: "{{ users }}"
