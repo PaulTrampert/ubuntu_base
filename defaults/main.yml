@@ -1,3 +1,4 @@
 ---
 hostname: ubuntu_host
-users: []
+machine_users: []
+machine_groups: []

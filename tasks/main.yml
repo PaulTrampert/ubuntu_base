@@ -9,11 +9,15 @@
 - name: Set Hostname
   shell: hostname {{ hostname }} && echo {{ hostname }} > /etc/hostname && sed -i '/127\.0\.1\.1/c\127.0.1.1 {{ hostname }}' /etc/hosts
 
+- name: Create groups
+  group:
+    name: "{{ item }}"
+  loop: "{{ machine_groups }}"
+
 - name: Create users
   user:
     name: "{{ item.name }}"
-    group: "{{ item.name }}"
     groups: "{{ item.groups | default([]) }}"
     password: "{{ item.password | default('') | password_hash('sha512', item.salt | default ('')) }}"
     shell: "{{ '/bin/bash' if item.password is defined else '/usr/sbin/nologin' }}"
-  loop: "{{ users }}"
+  loop: "{{ machine_users }}"
