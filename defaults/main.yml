@@ -1,4 +1,4 @@
 ---
-hostname: ubuntu_host
+hostname: "{{inventory_hostname}}"
 machine_users: []
 machine_groups: []
