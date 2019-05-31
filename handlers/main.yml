@@ -7,4 +7,8 @@
   notify: reboot
 
 - name: reboot
-  reboot:
+  block:
+    - reboot:
+  rescue:
+    - debug:
+        msg: "Can't reboot when running ansible_local"
