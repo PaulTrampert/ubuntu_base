@@ -21,3 +21,4 @@
     password: "{{ item.password | default('') | password_hash('sha512', item.salt | default ('')) }}"
     shell: "{{ '/bin/bash' if item.password is defined else '/usr/sbin/nologin' }}"
   loop: "{{ machine_users }}"
+  no_log: True
