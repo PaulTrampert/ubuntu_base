@@ -2,3 +2,4 @@
 hostname: "{{inventory_hostname}}"
 machine_users: []
 machine_groups: []
+ubuntu_mirror_country: us

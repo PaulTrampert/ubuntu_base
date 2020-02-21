@@ -1,4 +1,10 @@
 ---
+- name: Update sources mirrors
+  replace:
+    path: /etc/apt/sources.list
+    regexp: http://([A-Za-z0-9-]+\.)?archive\.ubuntu\.com/
+    replace: http://{{ubuntu_mirror_country}}.archive.ubuntu.com/
+
 
 - name: System Update
   apt:
