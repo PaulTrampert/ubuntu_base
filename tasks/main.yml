@@ -4,6 +4,7 @@
     path: /etc/apt/sources.list
     regexp: http://([A-Za-z0-9-]+\.)?archive\.ubuntu\.com/
     replace: http://{{ubuntu_mirror_country}}.archive.ubuntu.com/
+    backup: yes
 
 
 - name: System Update
@@ -13,7 +14,8 @@
   notify: check_reboot
 
 - name: Set Hostname
-  shell: hostname {{ hostname }} && echo {{ hostname }} > /etc/hostname && sed -i '/127\.0\.1\.1/c\127.0.1.1 {{ hostname }}' /etc/hosts
+  hostname:
+    name: "{{hostname}}"
 
 - name: Create groups
   group:
