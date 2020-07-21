@@ -30,3 +30,8 @@
     shell: "{{ '/bin/bash' if item.password is defined else '/usr/sbin/nologin' }}"
   loop: "{{ machine_users }}"
   no_log: True
+
+- name: Install common software
+  apt:
+    name: python3-pip
+    state: latest
