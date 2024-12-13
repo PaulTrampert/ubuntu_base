@@ -1,29 +1,29 @@
 ---
 - name: Update sources mirrors
-  replace:
+  ansible.builtin.replace:
     path: /etc/apt/sources.list
     regexp: http://([A-Za-z0-9-]+\.)?archive\.ubuntu\.com/
-    replace: http://{{ubuntu_mirror_country}}.archive.ubuntu.com/
-    backup: yes
+    replace: http://{{ ubuntu_mirror_country }}.archive.ubuntu.com/
+    backup: true
 
 
 - name: System Update
-  apt:
-    update_cache: yes
+  ansible.builtin.apt:
+    update_cache: true
     upgrade: full
-  notify: check_reboot
+  notify: Check Reboot
 
 - name: Set Hostname
-  hostname:
-    name: "{{hostname}}"
+  ansible.builtin.hostname:
+    name: "{{ hostname }}"
 
 - name: Create groups
-  group:
+  ansible.builtin.group:
     name: "{{ item }}"
   loop: "{{ machine_groups }}"
 
 - name: Create users
-  user:
+  ansible.builtin.user:
     name: "{{ item.name }}"
     groups: "{{ item.groups | default([]) }}"
     password: "{{ item.password | default('') | password_hash('sha512', item.salt | default ('')) }}"
@@ -32,6 +32,6 @@
   no_log: True
 
 - name: Install common software
-  apt:
+  ansible.builtin.apt:
     name: python3-pip
     state: latest

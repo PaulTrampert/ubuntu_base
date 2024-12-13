@@ -1,10 +1,10 @@
 ---
-- name: check_reboot
-  shell: "[ -f /var/run/reboot-required ]"
-  failed_when: False
+- name: Check Reboot
+  ansible.builtin.shell: "[ -f /var/run/reboot-required ]"
+  failed_when: false
   register: reboot_required
   changed_when: reboot_required.rc == 0
-  notify: reboot
+  notify: Reboot
 
-- name: reboot
-  reboot:
+- name: Reboot
+  ansible.builtin.reboot:
